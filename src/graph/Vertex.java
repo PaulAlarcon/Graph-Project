@@ -1,19 +1,15 @@
+package graph;
+
 import java.awt.*;
-import java.util.ArrayList;
 
-public class Vertex extends Point {
+public class Vertex extends Point{
 
-    double x;
-    double y;
-    boolean visited;
+    private double x;
+    private double y;
 
-    Vertex camefrom;
-
-    Vertex(double x, double y){
+    public Vertex(double x, double y){
         this.x = x;
         this.y = y;
-        visited = false;
-        camefrom = null;
     }
 
     @Override
@@ -34,24 +30,30 @@ public class Vertex extends Point {
         this.y = y;
     }
 
-    public boolean equals(Vertex v){
-        return v.getX() == this.getX() && v.getY() == this.getY();
+
+    @Override
+    public boolean equals(Object object) {
+        if(object == this) return true;
+        if(object == null) return false;
+        Vertex v = (Vertex)object;
+        return this.getX() == v.getX() && this.getY() == v.getY();
     }
 
     public void translate(Vertex v){
+        if(v == null) return;
         this.setX(v.getX());
         this.setY(v.getY());
     }
 
     @Override
     public String toString() {
-        return "Vertex{" +
+        return "graph.Vertex{" +
                 "x=" + x +
                 ", y=" + y +
                 '}';
     }
 
-    public boolean isVisited() {
-        return visited;
-    }
+
+
+
 }

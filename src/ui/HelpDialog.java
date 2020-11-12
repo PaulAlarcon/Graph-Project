@@ -1,8 +1,10 @@
+package ui;
+
 import javax.swing.*;
 
-class HelpInfo extends JFrame {
+class HelpDialog extends JDialog {
 
-        HelpInfo(){
+        HelpDialog() {
             setSize(600,600);
             setVisible(true);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
