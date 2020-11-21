@@ -2,32 +2,43 @@ package graph;
 
 import java.awt.*;
 
-public class Vertex extends Point{
+public class Vertex {
 
-    private double x;
-    private double y;
+    static int Counter = 0;
+    private final int id;
+    private final Point point;
+    private int x;
+    private int y;
 
-    public Vertex(double x, double y){
+    public Vertex(int x, int y) {
         this.x = x;
         this.y = y;
+        point = new Point(x, y);
+        id = ++Counter;
     }
 
-    @Override
-    public double getX() {
+    public int x() {
         return x;
     }
 
-    @Override
-    public double getY() {
+    public int y() {
         return y;
     }
 
-    public void setX(double x) {
+    public int id() {return id;}
+
+    public void setX(int x) {
         this.x = x;
+        point.x = x;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
+        point.y = y;
+    }
+
+    public Point point(){
+        return point;
     }
 
 
@@ -36,21 +47,19 @@ public class Vertex extends Point{
         if(object == this) return true;
         if(object == null) return false;
         Vertex v = (Vertex)object;
-        return this.getX() == v.getX() && this.getY() == v.getY();
+        return this.x() == v.x() && this.y() == v.y();
     }
 
     public void translate(Vertex v){
         if(v == null) return;
-        this.setX(v.getX());
-        this.setY(v.getY());
+        point.setLocation(v.x(), v.y());
+        this.setX(v.x());
+        this.setY(v.y());
     }
 
     @Override
     public String toString() {
-        return "graph.Vertex{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        return "Vertex id : "  + id;
     }
 
 

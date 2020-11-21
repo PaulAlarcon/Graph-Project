@@ -1,13 +1,13 @@
 package graph;
 
+import javax.sound.sampled.Line;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
-public class Edge extends Line2D {
+public class Edge{
 
     private Vertex v1;
     private Vertex v2;
+    private Line2D line;
 
     @Override
     public boolean equals(Object obj) {
@@ -21,40 +21,34 @@ public class Edge extends Line2D {
     public Edge(Vertex v1, Vertex v2){
         this.v1 = v1;
         this.v2 = v2;
+        line = new Line2D.Double(x1(), y1(), x2(), y2());
     }
 
-    @Override
-    public double getX1() {
-        return v1.getX();
+    public Line2D line(){return line;}
+
+    public int x1() {
+        return v1.x();
     }
 
-    @Override
-    public double getY1() {
-        return v1.getY();
+    public int y1() {
+        return v1.y();
     }
 
-    @Override
-    public Vertex getP1() {
+    public Vertex v1() {
         return v1;
     }
 
-    @Override
-    public double getX2() {
-        return v2.getX();
+    public int x2() {
+        return v2.x();
     }
 
-    @Override
-    public double getY2() {
-        return v2.getY();
+    public int y2() {
+        return v2.y();
     }
 
-    @Override
-    public Vertex getP2() {
+    public Vertex v2() {
         return v2;
     }
-
-    @Override
-    public void setLine(double x1, double y1, double x2, double y2) {}
 
     public String toString() {
         return "graph.Edge{" +
@@ -64,21 +58,17 @@ public class Edge extends Line2D {
     }
 
     public boolean equals(Edge e){
-        return (this.getP1().equals(e.getP1()) && this.getP2().equals(e.getP2()))
-                || (this.getP1().equals(e.getP2()) && this.getP2().equals(e.getP1()));
+        return (this.v1().equals(e.v1()) && this.v2().equals(e.v2()))
+                || (this.v1().equals(e.v2()) && this.v2().equals(e.v1()));
     }
 
-    public boolean contains(Vertex v) {
+    public boolean has(Vertex v) {
         return v1.equals(v) || v2.equals(v);
     }
 
     @Override
     public int hashCode() {
-        return getP1().hashCode() + getP2().hashCode();
+        return v1().hashCode() + v2().hashCode();
     }
 
-    @Override
-    public Rectangle2D getBounds2D() {
-        return null;
-    }
 }

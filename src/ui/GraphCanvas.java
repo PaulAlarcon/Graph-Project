@@ -5,13 +5,15 @@ import java.awt.*;
 import java.awt.Canvas;
 import java.util.List;
 
+import static graph.GraphController.*;
 import static graph.GraphController.Mode.CONNECTED_COMPONENTS;
+import static graph.GraphController.Mode.CUT_VERTICES;
 
 public class GraphCanvas extends Canvas  {
 
     private static final int RADIUS = 20;
     private static final int HALF_RADIUS = RADIUS >> 1;
-    private final Stroke DASHED = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+    private final Stroke DASHED = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5}, 0);
     private final GraphController graphController;
 
     //Double buffer
@@ -26,40 +28,49 @@ public class GraphCanvas extends Canvas  {
         addMouseMotionListener(this.graphController);
         setBackground(Color.white);
         graphController.setMousePressedListener(this::repaint);
+        graphController.setMouseMovedListener(this::repaint);
     }
 
     @Override
     public void paint(Graphics g) {
-//        if mode == connected components;
-        if(graphController.testMode(CONNECTED_COMPONENTS)){
-          graphController.addConnectedComponentsToGraph()
-                  .forEach(
-                          m -> {
-                              if(m instanceof GraphController.VertexCanvasModel)
-                                  drawVertex((GraphController.VertexCanvasModel)m, g);
-                                else drawEdge((GraphController.EdgeCanvasModel)m, g);
-                          });
 
+
+        if (graphController.checkMode(CONNECTED_COMPONENTS) || graphController.checkMode(CUT_VERTICES)){
+
+            List<CanvasModel> canvasModelList = graphController.checkMode(CONNECTED_COMPONENTS)
+                    ? graphController.calculateConnectedComponentsToGraph()
+                    : graphController.calculateCutVerticesToGraph();
+
+            for (CanvasModel cm : canvasModelList) {
+                if (cm instanceof VertexCanvasModel)
+                    drawVertex((VertexCanvasModel) cm, g);
+                else
+                    drawEdge((EdgeCanvasModel) cm, g);
+            }
         }
+
         else{
-            this.graphController.edgesList().forEach(e -> drawDashedLine(e, g));
+            this.graphController.edgesList().forEach(e -> drawEdge(e, g));
             this.graphController.verticesList().forEach( v -> drawVertex(v , g));
         }
 
     }
 
-    public void drawVertex(GraphController.VertexCanvasModel v, Graphics g) {
+    public void drawVertex(VertexCanvasModel v, Graphics g) {
         g.setColor(v.getColor());
-        g.fillOval( v.getX() - HALF_RADIUS, v.getY() - HALF_RADIUS, RADIUS, RADIUS);
+        g.fillOval( v.x() - HALF_RADIUS, v.y() - HALF_RADIUS, RADIUS, RADIUS);
     }
 
-    public void drawEdge(GraphController.EdgeCanvasModel e, Graphics g) {
-        g.setColor(e.getColor());
-        g.drawLine(e.getX1(), e.getY1(), e.getX2(), e.getY2());
+    public void drawEdge(EdgeCanvasModel e, Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setStroke(new BasicStroke(2));
+        g2.setColor(e.getColor());
+        g2.drawLine(e.getX1(), e.getY1(), e.getX2(), e.getY2());
+        g2.dispose();
     }
 
 
-    public void drawDashedLine( GraphController.EdgeCanvasModel e, Graphics g){
+    public void drawDashedLine( EdgeCanvasModel e, Graphics g){
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setColor(e.getColor());
         g2d.setStroke(DASHED);

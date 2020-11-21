@@ -1,12 +1,8 @@
 package ui;
 
 import graph.GraphController;
-
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.Executors;
 
 import static graph.GraphController.Mode.*;
 
@@ -15,13 +11,12 @@ public class SidePanel extends JPanel {
     private GraphController graphController;
     private final ActionListener listener;
 
-    public SidePanel(GraphController graphController) {
+    public SidePanel(GraphController graphController, HelpDialog helpDialog) {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         setSize(200,400);
         setLocation(0, 0);
         this.graphController = graphController;
         ButtonGroup group = new ButtonGroup();
-
         listener = e -> {
           switch(e.getActionCommand()) {
               case "addVertex":
@@ -46,23 +41,16 @@ public class SidePanel extends JPanel {
                   graphController.drawCircleToCanvas();
                   break;
               case "connComp":
-
-                      graphController.addConnectedComponentsToGraph();
-                      graphController.setMode(CONNECTED_COMPONENTS);
-
+                  graphController.setMode(CONNECTED_COMPONENTS);
                   break;
               case "cutVertices":
-//                  graphController.setMode(MOVE_VERTEX);
-                  break;
-              case "convexHull":
-                  graphController.drawConvexHull();
-                  graphController.setMode(CONVEX_HULL);
-                  break;
-              case "help":
-//                  graphController.setMode(MOVE_VERTEX);
+                  graphController.setMode(CUT_VERTICES);
                   break;
               case "clear":
                   graphController.clearCanvas();
+                  break;
+              case "help":
+                  helpDialog.setVisible(true);
                   break;
               default:
                   break;
@@ -81,8 +69,6 @@ public class SidePanel extends JPanel {
         setUpButton(new JButton("Show Cut Vertices"), "cutVertices", null);
         setUpButton(new JButton("Help"), "help", null);
         setUpButton(new JButton("Clear"), "clear", null);
-        setUpButton(new JButton("Convex Hull (Vertices Only)"), "convexHull", null);
-
     }
 
     private void setUpButton(AbstractButton btn, String actionCommand, ButtonGroup btnGroup ) {

@@ -13,6 +13,7 @@ public class App extends JFrame  {
     private SidePanel sidePanel;
     private GraphCanvas graphCanvas ;
     private GraphController graphController;
+    private HelpDialog helpDialog;
     private final Graph graph;
 
     private final int canvasWidth = 600;
@@ -28,17 +29,10 @@ public class App extends JFrame  {
         graph = new Graph();
         graphController = new GraphController(graph);
         graphCanvas = new GraphCanvas(graphController, canvasWidth, canvasHeight);
-        sidePanel = new SidePanel(graphController);
+        helpDialog = new HelpDialog();
+        sidePanel = new SidePanel(graphController, helpDialog);
         add(sidePanel);
         add(graphCanvas);
-        testGraph();
     }
 
-
-
-    public void testGraph() {
-        Random rand = new Random();
-        for ( int i = 0; i < 100; i++)
-            graph.addVertex(new Vertex(rand.nextInt(canvasWidth), rand.nextInt(canvasHeight)));
-    }
 }

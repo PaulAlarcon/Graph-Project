@@ -6,7 +6,7 @@ class HelpDialog extends JDialog {
 
         HelpDialog() {
             setSize(600,600);
-            setVisible(true);
+            setVisible(false);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setLocation(400,50);
             JPanel pane = new JPanel();
