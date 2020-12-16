@@ -182,15 +182,18 @@ public class GraphController implements MouseListener, MouseMotionListener {
 
         double currentDistance;
         Vertex currentVertex;
-        for ( int i = 1; i < verticesList.size(); ++i) {
 
+        for ( int i = 1; i < verticesList.size(); ++i) {
             currentVertex = verticesList.get(i);
             currentDistance = currentVertex.point().distance(x, y);
-
-            if ( currentDistance < selectedVertexDistance )
+//            System.out.println(currentVertex.id() + " " + currentDistance);
+            if ( currentDistance < selectedVertexDistance ){
                 selectedVertex = currentVertex;
+                selectedVertexDistance = currentDistance;
+            }
 
         }
+
         return selectedVertex;
     }
 
@@ -205,12 +208,14 @@ public class GraphController implements MouseListener, MouseMotionListener {
         Edge currentEdge;
         double currentEdgeDistance;
 
-        for (int i = 0; i < edgeList.size(); ++i) {
+        for (int i = 1; i < edgeList.size(); ++i) {
             currentEdge = edgeList.get(i);
             currentEdgeDistance = currentEdge.line().ptLineDist(x, y);
 
-            if (currentEdgeDistance < selectedEdgeDistance)
+            if (currentEdgeDistance < selectedEdgeDistance){
                 selectedEdge = currentEdge;
+                selectedEdgeDistance = currentEdgeDistance;
+            }
         }
 
         return selectedEdge;

@@ -2,11 +2,8 @@ package ui;
 
 import graph.Graph;
 import graph.GraphController;
-import graph.Vertex;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
 public class App extends JFrame  {
 

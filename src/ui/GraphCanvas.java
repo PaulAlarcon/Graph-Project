@@ -34,7 +34,6 @@ public class GraphCanvas extends Canvas  {
     @Override
     public void paint(Graphics g) {
 
-
         if (graphController.checkMode(CONNECTED_COMPONENTS) || graphController.checkMode(CUT_VERTICES)){
 
             List<CanvasModel> canvasModelList = graphController.checkMode(CONNECTED_COMPONENTS)
